@@ -252,11 +252,11 @@ def encode_with_messages_format(example, tokenizer, max_seq_length):
         message_text = ""
         for message in messages:
             if message["role"] == "system":
-                message_text += "<|system|>\n" + message["content"].strip() + "\n"
+                message_text += "<|system|>" + message["content"].strip() + "</s>"
             elif message["role"] == "user":
-                message_text += "<|user|>\n" + message["content"].strip() + "\n"
+                message_text += "<|prompter|>" + message["content"].strip() + "</s>"
             elif message["role"] == "assistant":
-                message_text += "<|assistant|>\n" + message["content"].strip() + tokenizer.eos_token + "\n"
+                message_text += "<|assistant|>" + message["content"].strip() + tokenizer.eos_token + "</s>"
             else:
                 raise ValueError("Invalid role: {}".format(message["role"]))
         return message_text
