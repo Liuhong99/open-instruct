@@ -277,7 +277,7 @@ def encode_with_messages_format(example, tokenizer, max_seq_length):
                 ).input_ids.shape[1]
             if message_idx < len(messages) - 1 and messages[message_idx+1]["role"] == "assistant":
                 # here we also ignore the role of the assistant
-                messages_so_far = _concat_messages(messages[:message_idx+1]) + "<|assistant|>\n"
+                messages_so_far = _concat_messages(messages[:message_idx+1]) + "<|assistant|>"
             else:
                 messages_so_far = _concat_messages(messages[:message_idx+1])
             message_end_idx = tokenizer(
