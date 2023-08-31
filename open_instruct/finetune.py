@@ -64,6 +64,8 @@ def parse_args():
         help="Pretrained config name or path if not the same as model_name",
     )
     parser.add_argument(
+        "--activation_checkpointing", action="store_true", help="Use activation checkpointing.")
+    parser.add_argument(
         "--use_lora",
         action="store_true",
         help="If passed, will use LORA (low-rank parameter-efficient training) to train the model.",
@@ -386,6 +388,8 @@ def main():
             config=config,
             low_cpu_mem_usage=args.low_cpu_mem_usage,
         )
+        if args.activation_checkpointing:
+            model.gradient_checkpointing_enable()
     else:
         logger.info("Training new model from scratch")
         model = AutoModelForCausalLM.from_config(config)
@@ -465,7 +469,7 @@ def main():
     train_dataloader = DataLoader(
         train_dataset, 
         shuffle=True, 
-        collate_fn=DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model, padding="longest"),
+        collate_fn=DataCollatorForSeq2Seq(tokenizer=tokenizer, pad_to_multiple_of = 8, model=model, padding="longest"),
         batch_size=args.per_device_train_batch_size
     )
 
