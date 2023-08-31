@@ -388,9 +388,13 @@ def main():
             config=config,
             low_cpu_mem_usage=args.low_cpu_mem_usage,
         )
+        if args.activation_checkpointing:
+            model.gradient_checkpointing_enable()
     else:
         logger.info("Training new model from scratch")
         model = AutoModelForCausalLM.from_config(config)
+        if args.activation_checkpointing:
+            model.gradient_checkpointing_enable()
 
 
     # no default pad token for llama!
