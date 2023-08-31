@@ -64,6 +64,8 @@ def parse_args():
         help="Pretrained config name or path if not the same as model_name",
     )
     parser.add_argument(
+        "--activation_checkpointing", action="store_true", help="Use activation checkpointing.")
+    parser.add_argument(
         "--use_lora",
         action="store_true",
         help="If passed, will use LORA (low-rank parameter-efficient training) to train the model.",
