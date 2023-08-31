@@ -471,7 +471,7 @@ def main():
     train_dataloader = DataLoader(
         train_dataset, 
         shuffle=True, 
-        collate_fn=DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model, padding="longest"),
+        collate_fn=DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model, pad_to_multiple_of=8, padding="longest"),
         batch_size=args.per_device_train_batch_size
     )
 
